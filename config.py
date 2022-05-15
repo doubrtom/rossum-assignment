@@ -37,10 +37,9 @@ class Config:
         """Init new Flask app."""
 
 
-class DevelopConfig(Config):
+class DevelopmentConfig(Config):
     """Develop - configuration for Flask."""
 
-    DEBUG = True
     SQLALCHEMY_ECHO = False
 
 
@@ -53,12 +52,10 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     """Production - configuration for Flask."""
 
-    DEBUG = False
-
 
 config_types = {
-    "development": DevelopConfig,
+    "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig,
-    "default": DevelopConfig,
+    "default": DevelopmentConfig,
 }
