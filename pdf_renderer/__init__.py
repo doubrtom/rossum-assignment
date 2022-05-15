@@ -5,14 +5,18 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
+from flask_dramatiq import Dramatiq
 from flasgger import Swagger
 
 from config import config_types
 
+
+# Init extensions
 db = SQLAlchemy()
 migrate = Migrate()
 swagger = Swagger()
 ma = Marshmallow()
+dramatiq = Dramatiq()
 
 
 def create_app(config=None):
@@ -32,6 +36,7 @@ def create_app(config=None):
     migrate.init_app(app, db)
     swagger.init_app(app)
     ma.init_app(app)
+    dramatiq.init_app(app)
 
     # Load models - needed for migrations
     from . import models  # noqa: F401

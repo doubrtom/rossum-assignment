@@ -33,6 +33,8 @@ class Config:
     DATA_DIR = os.path.join(BASE_DIR, "data")
     SQLALCHEMY_DATABASE_URI = get_sqlalchemy_uri()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DRAMATIQ_BROKER = get_required_environ('DRAMATIQ_BROKER')
+    DRAMATIQ_BROKER_URL = get_required_environ('DRAMATIQ_BROKER_URL')
 
     @staticmethod
     def init_app(app):

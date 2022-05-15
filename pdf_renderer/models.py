@@ -33,3 +33,33 @@ class RenderingPdfEvent(db.Model):
         It is inside DATA_DIR see config to change path.
         """
         return os.path.join(current_app.config["DATA_DIR"], str(self.uuid))
+
+    @property
+    def pdf_file_path(self) -> str:
+        """Return absolute path to uploaded PDF file.
+
+        Uploaded file is saved in the event_folder with name "input.pdf"
+        """
+        return os.path.join(self.event_folder, "input.pdf")
+
+    def get_pdf_page_path(self, page_number: int) -> str:
+        """Return absolute path to one paged PDF.
+
+        Uploaded PDF file is split by pages and each page is saved
+        into event dir.
+        """
+        return os.path.join(self.event_folder, f"{page_number}.pdf")
+
+    def get_image_path(self, page_number: int) -> str:
+        """Return absolute path to one rendered page into PNG image.
+
+        Rendered images are saved into event dir.
+        """
+        return os.path.join(self.event_folder, f"{page_number}.png")
+
+    def is_processing_done(self) -> bool:
+        """Return if all pages was processed.
+
+        ! Refresh data from DB, when calling this function in worker
+        """
+        return self.processed_page_count == self.total_page_count
