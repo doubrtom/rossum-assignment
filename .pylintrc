@@ -1,6 +1,6 @@
 [MASTER]
 # error codes: https://pylint.pycqa.org/en/latest/messages/refactor/no-self-use.html
-disable=R0903,C0114
+disable=R0903,C0114,E1101
 load-plugins=pylint_flask,pylint_flask_sqlalchemy
 
 [SIMILARITIES]

@@ -29,6 +29,8 @@ class Config:
     """Base configuration for Flask."""
 
     SECRET_KEY = get_required_environ("SECRET_KEY")
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_DIR = os.path.join(BASE_DIR, "data")
     SQLALCHEMY_DATABASE_URI = get_sqlalchemy_uri()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
