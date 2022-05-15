@@ -13,6 +13,7 @@ marshmallow = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 flasgger = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"
@@ -20,6 +21,8 @@ flake8 = "*"
 flake8-docstrings = "*"
 pep8-naming = "*"
 pylint = "*"
+pylint-flask-sqlalchemy = "*"
+pylint-flask = "*"
 watchdog = "*"
 wheel = "*"
 

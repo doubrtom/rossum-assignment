@@ -1,3 +1,4 @@
+# pylint: disable=import-outside-toplevel,unused-import,cyclic-import
 import os
 
 from flask import Flask
@@ -32,9 +33,12 @@ def create_app(config=None):
     swagger.init_app(app)
     ma.init_app(app)
 
+    # Load models - needed for migrations
+    from . import models  # noqa: F401
+
     # Create app blueprints
-    @app.route("/")
-    def index():
-        return "Index"
+    from . import api
+
+    app.register_blueprint(api.api_bp)
 
     return app
