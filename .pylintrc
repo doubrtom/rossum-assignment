@@ -1,0 +1,9 @@
+[MASTER]
+# error codes: https://pylint.pycqa.org/en/latest/messages/refactor/no-self-use.html
+disable=R0903,C0114
+
+[SIMILARITIES]
+min-similarity-lines=10
+
+[FORMAT]
+good-names=i,j,k,ex,Run,_,app,db
