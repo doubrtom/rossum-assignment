@@ -1,0 +1,65 @@
+version: "3.9"
+services:
+
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_password
+            POSTGRES_DB: rossum-assignment
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            -  "5432:5432"
+    adminer:
+        image: adminer
+        depends_on:
+            - postgres
+        restart: always
+        ports:
+            - "8081:8080"
+    redis:
+        image: redis
+        ports:
+            -  "6379:6379"
+    rabbit:
+        image: rabbitmq
+        environment:
+            RABBITMQ_DEFAULT_USER: rabbit
+            RABBITMQ_DEFAULT_PASS: rabbit
+        ports:
+            - "5672:5672"  # AMQP protocol port
+            - "15672:15672"  # HTTP management UI
+
+    pdf_renderer_api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: >
+            sh -c 'scripts/entrypoint-api.sh'
+        depends_on:
+            - postgres
+            - redis
+            - rabbit
+        ports:
+            - "5001:5000"
+        volumes:
+            - .:/code
+            - app-data:/code/data
+    pdf_renderer_workers:
+        build:
+            context: .
+            dockerfile: Dockerfile.worker
+        command: >
+            sh -c 'scripts/entrypoint-workers.sh'
+        depends_on:
+            - postgres
+            - redis
+            - rabbit
+        volumes:
+            - .:/code
+            - app-data:/code/data
+
+volumes:
+    db-data: {}
+    app-data: {}
