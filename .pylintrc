@@ -8,3 +8,6 @@ min-similarity-lines=10
 
 [FORMAT]
 good-names=i,j,k,ex,Run,_,app,db
+
+[DESIGN]
+max-parents=10  # because of marshmallow schemas

@@ -1,0 +1,54 @@
+Get info about rendering
+---
+description: Information about processing of uploaded PDF document.
+tags:
+    - PDF Rendering
+produces:
+    - application/json
+parameters:
+    -   name: event_uuid
+        in: path
+        type: string
+        format: uuid
+        required: true
+        description: Rendering PDF event UUID generated when upload PDF document.
+definitions:
+    RenderingPdfEvent:
+        type: object
+        properties:
+            uuid:
+                type: string
+                format: uuid
+                description: UUID generated for this processing event
+            processed_page_count:
+                type: integer
+                description: >-
+                    Number of already processed pages,
+                    you can see progress of processing of uploaded PDF document.
+            total_page_count:
+                type: integer
+                description: Number of pages in uploaded PDF document.
+            status:
+                type: string
+                enum: [new, processing, failed, done]
+                description: |-
+                    Status of processing uploaded PDF document:
+                    - new: Document uploaded and ready for processing, waiting for workers.
+                    - processing: Document is picked up by workers and it is in processing.
+                    - failed: Processing of document failed.
+                    - done: Document is processed. Rendered images are ready for download.
+    RenderingPdfEventNotFound:
+        type: object
+        properties:
+            error_message:
+                type: string
+                description: Information about error.
+responses:
+    200:
+        description: Detail about rendering PDF event.
+        schema:
+            $ref: '#/definitions/RenderingPdfEvent'
+    404:
+        description: Rendering PDF event not found.
+        schema:
+            $ref: '#/definitions/RenderingPdfEventNotFound'

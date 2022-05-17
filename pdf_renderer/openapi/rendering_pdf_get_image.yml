@@ -1,0 +1,31 @@
+Get rendered images
+---
+description: Download rendered images from uploaded PDF document.
+tags:
+    - PDF Rendering
+produces:
+    - application/json
+    - image/png
+parameters:
+    -   name: event_uuid
+        in: path
+        type: string
+        format: uuid
+        required: true
+        description: Rendering PDF event UUID generated when upload PDF document.
+    -   name: page_num
+        in: path
+        type: integer
+        required: true
+        description: |
+            Number of page to download.
+            Pages are numbered from 1 to N, where N is `total_page_count`, see `RenderingPdfEvent` model.
+responses:
+    200:
+        description: Get rendered PNG image for specified page.
+        schema:
+            type: file
+    404:
+        description: If selected page does not exist.
+        schema:
+            $ref: '#/definitions/RenderingPdfEventNotFound'

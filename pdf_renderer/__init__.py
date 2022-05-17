@@ -9,12 +9,13 @@ from flask_dramatiq import Dramatiq
 from flasgger import Swagger
 
 from config import config_types
+from .openapi import template as openapi_template
 
 
 # Init extensions
 db = SQLAlchemy()
 migrate = Migrate()
-swagger = Swagger()
+swagger = Swagger(template=openapi_template)
 ma = Marshmallow()
 dramatiq = Dramatiq()
 

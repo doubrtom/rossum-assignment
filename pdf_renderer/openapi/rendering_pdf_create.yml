@@ -1,0 +1,40 @@
+Start rendering
+---
+description: Upload PDF document and start rendering of pages into PNG images.
+tags:
+    - PDF Rendering
+consumes:
+    - multipart/form-data
+produces:
+    - application/json
+parameters:
+    -   name: pdf_file
+        in: formData
+        type: file
+        required: true
+        description: PDF document to render into PNG images.
+definitions:
+    ValidationErrors:
+        type: object
+        properties:
+            error_message:
+                type: string
+                description: Validation error.
+            errors:
+                type: object
+                description: A mapping of field into array of errors for the field.
+                properties:
+                    pdf_file:
+                        type: array
+                        description: List of errors for `pdf_file` field.
+                        items:
+                            type: string
+responses:
+    201:
+        description: Detail about rendering PDF event.
+        schema:
+            $ref: '#/definitions/RenderingPdfEvent'
+    400:
+        description: Validation errors.
+        schema:
+            $ref: '#/definitions/ValidationErrors'

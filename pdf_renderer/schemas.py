@@ -1,7 +1,7 @@
 from marshmallow_enum import EnumField
 
 from . import ma, schema_validators
-from . models import RenderingPdfEvent
+from .models import RenderingPdfEvent
 from .enums import ProcessingStatus
 
 
@@ -23,4 +23,3 @@ class RenderingPdfEventSchema(ma.SQLAlchemyAutoSchema):
     class Meta:  # pylint: disable=missing-class-docstring  # noqa: D106
         model = RenderingPdfEvent
         fields = ("uuid", "status", "total_page_count", "processed_page_count")
-
