@@ -34,7 +34,7 @@ def create_app(config=None):
 
     # Set up extensions
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, directory=os.path.join("pdf_renderer", "migrations"))
     swagger.init_app(app)
     ma.init_app(app)
     dramatiq.init_app(app)
