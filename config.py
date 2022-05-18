@@ -14,14 +14,17 @@ def get_required_environ(key: str) -> str:
         raise ImproperlyConfiguredError(error_msg) from KeyError
 
 
-def get_sqlalchemy_uri() -> str:
+def get_sqlalchemy_uri(testing: bool = False) -> str:
     """Return URI for SQLAlchemy to connect into DB."""
     dialect = get_required_environ("DB_DIALECT")
     username = get_required_environ("DB_USERNAME")
     password = get_required_environ("DB_PASSWORD")
     host = get_required_environ("DB_HOST")
     port = get_required_environ("DB_PORT")
-    db_name = get_required_environ("DB_NAME")
+    if testing:
+        db_name = get_required_environ("DB_NAME_TEST")
+    else:
+        db_name = get_required_environ("DB_NAME")
     return f"{dialect}://{username}:{password}@{host}:{port}/{db_name}"
 
 
@@ -51,6 +54,9 @@ class TestingConfig(Config):
     """Testing - configuration for Flask."""
 
     TESTING = True
+    DRAMATIQ_BROKER = "dramatiq.brokers.stub:StubBroker"
+    DRAMATIQ_BROKER_URL = ""
+    SQLALCHEMY_DATABASE_URI = get_sqlalchemy_uri(True)
 
 
 class ProductionConfig(Config):

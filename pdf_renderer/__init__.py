@@ -1,5 +1,6 @@
 # pylint: disable=import-outside-toplevel,unused-import,cyclic-import
 import os
+import json
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -18,6 +19,18 @@ migrate = Migrate()
 swagger = Swagger(template=openapi_template)
 ma = Marshmallow()
 dramatiq = Dramatiq()
+
+
+def page_not_found(err):
+    """Error handler for page not found."""
+    response = err.get_response()
+    response.data = json.dumps(
+        {
+            "error_message": err.description,
+        }
+    )
+    response.content_type = "application/json"
+    return response
 
 
 def create_app(config=None):
@@ -46,5 +59,8 @@ def create_app(config=None):
     from . import api
 
     app.register_blueprint(api.api_bp)
+
+    # Register error handlers
+    app.register_error_handler(404, page_not_found)
 
     return app

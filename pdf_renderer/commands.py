@@ -19,7 +19,7 @@ def _save_file(rendering_event: RenderingPdfEvent, data: PdfFileData) -> None:
 
 
 def start_pdf_processing(data: PdfFileData) -> RenderingPdfEvent:
-    """Start processing uploaded PDF file."""
+    """Start processing of uploaded PDF document."""
     rendering_event = RenderingPdfEvent(uuid=uuid.uuid4())
     _save_file(rendering_event, data)
     pdf_reader = PdfFileReader(rendering_event.pdf_file_path)

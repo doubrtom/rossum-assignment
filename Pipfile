@@ -19,6 +19,7 @@ flask-dramatiq = "*"
 pika = "*"
 pdf2image = "*"
 marshmallow-enum = "*"
+pdf-renderer = {editable = true, path = "."}
 
 [dev-packages]
 black = "*"
@@ -30,6 +31,9 @@ pylint-flask-sqlalchemy = "*"
 pylint-flask = "*"
 watchdog = "*"
 wheel = "*"
+pytest = "*"
+pytest-mock = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.8"

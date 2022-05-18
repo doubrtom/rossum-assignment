@@ -1,6 +1,6 @@
 [flake8]
 ignore = D104,D100
 max-line-length = 88
-exclude = .git,__pycache__,.coverage,.pytest_cache
+exclude = .git,__pycache__,.coverage,.pytest_cache,migrations
 enable-extensions = pep8-naming,flake8-docstrings
 docstring-convention = pep257

@@ -66,4 +66,6 @@ def rendering_pdf_get_image(event_uuid: UUID, page_num: int):
     ! This should normally do NGINX (or other web server).
     """
     rendering_event: RenderingPdfEvent = RenderingPdfEvent.query.get(event_uuid)
+    if rendering_event is None:
+        abort(404, f"Rendering PDF event with UUID={event_uuid} not found.")
     return send_from_directory(rendering_event.event_folder, f"{page_num}.png")
