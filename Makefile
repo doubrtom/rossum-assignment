@@ -17,6 +17,6 @@ test-docker:
 	# Run tests in docker
 	docker-compose run pdf_renderer_api pipenv run make test
 
-test-docker:
+create-testing-env:
 	# Create .env for testing in Docker
 	cp .env.example .env
