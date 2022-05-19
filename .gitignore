@@ -131,3 +131,5 @@ dmypy.json
 
 # Editor configs:
 /.idea/
+/data/**
+!/data/.gitkeep
