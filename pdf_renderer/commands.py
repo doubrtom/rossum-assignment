@@ -53,7 +53,10 @@ def split_pdf(event_uuid: str):
         with open(event.get_pdf_page_path(page_num), "wb") as file:
             pdf_writer.write(file)
         render_pdf_page.send(
-            event_uuid, page_num, page.mediaBox.getWidth(), page.mediaBox.getHeight()
+            event_uuid,
+            page_num,
+            int(page.mediaBox.getWidth()),  # This can be Double convert to int
+            int(page.mediaBox.getHeight()),  # This can be Double convert to int
         )
 
 
