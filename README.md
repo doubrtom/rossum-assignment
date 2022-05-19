@@ -8,9 +8,10 @@ In example below I use httpie - https://httpie.io/
 
 1) clone repository `git clone https://github.com/doubrtom/rossum-assignment`
 2) go to project `cd rossum-assignment`
-3) build docker images `docker-compose build`
-4) run services `docker-compose up -d`
-5) send request `http --form http://127.0.0.1:5001/rendering-pdf pdf_file@YOUR_FILE.pdf`
+3) create `.env` file `make create-testing-env`
+4) build docker images `docker-compose build`
+5) run services `docker-compose up -d`
+6) send request `http --form http://127.0.0.1:5001/rendering-pdf pdf_file@YOUR_FILE.pdf`
 
 
 ## Run tests in docker
