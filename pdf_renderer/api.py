@@ -16,8 +16,6 @@ api_bp = Blueprint("api", __name__)
 @api_bp.errorhandler(ValidationError)
 def validation_error_handler(err):
     """Convert validation errors into 400 response."""
-    # todo(doubravskytomas): logger
-    # todo(doubravskytomas): improve error messages
     response_data = {"errors": err.messages, "error_message": "Validation error"}
     return response_data, 400
 
@@ -25,7 +23,6 @@ def validation_error_handler(err):
 @api_bp.errorhandler(HTTPException)
 def http_error_handler(err):
     """Convert exceptions into json response."""
-    # todo(doubravskytomas): logger
     response = err.get_response()
     response.data = json.dumps(
         {

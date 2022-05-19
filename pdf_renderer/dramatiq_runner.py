@@ -1,5 +1,6 @@
+import os
+
 from . import create_app, dramatiq
 
-# todo(doubravskytomas): solve loading correct config
-app = create_app()
+app = create_app(os.environ.get('CONFIG_ENV', 'development'))
 broker = dramatiq.broker

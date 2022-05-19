@@ -41,7 +41,6 @@ def split_pdf(event_uuid: str):
     Each PDF page is saved as individual PDF file and send
     for rendering into next dramatiq worker.
     """
-    # todo(doubravskytomas): solve errors / missing uuid / ...
     event: RenderingPdfEvent = RenderingPdfEvent.query.get(event_uuid)
     event.status = ProcessingStatus.PROCESSING
     db.session.commit()
@@ -77,11 +76,11 @@ def render_pdf_page(event_uuid: str, page: int, page_width: int, page_height: in
     for image in images:
         image.save(event.get_image_path(page), "PNG")
 
-    # use column to increment in DB:
+    # Use column to increment in DB:
     event.processed_page_count = RenderingPdfEvent.processed_page_count + 1
     db.session.commit()
 
-    # todo(doubravskytomas): Improve when dramatiq.Group is working:
+    # This can be improved by dramatiq.Group and add_completion_callback
     db.session.refresh(event)
     if event.is_processing_done():
         event.status = ProcessingStatus.DONE
