@@ -3,11 +3,13 @@ import uuid
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from pdf2image import convert_from_path
+from flask import current_app
 
 from . import db, dramatiq
 from .models import RenderingPdfEvent
 from .types import PdfFileData
 from .enums import ProcessingStatus
+from .utils import get_convert_size_from_pdf_dimensions
 
 
 def _save_file(rendering_event: RenderingPdfEvent, data: PdfFileData) -> None:
@@ -50,17 +52,27 @@ def split_pdf(event_uuid: str):
         pdf_writer.addPage(page)
         with open(event.get_pdf_page_path(page_num), "wb") as file:
             pdf_writer.write(file)
-        render_pdf_page.send(event_uuid, page_num)
+        render_pdf_page.send(
+            event_uuid, page_num, page.mediaBox.getWidth(), page.mediaBox.getHeight()
+        )
 
 
 @dramatiq.actor(priority=50)
-def render_pdf_page(event_uuid: str, page: int):
+def render_pdf_page(event_uuid: str, page: int, page_width: int, page_height: int):
     """Take PDF with single page and render it into PNG file."""
     event: RenderingPdfEvent = RenderingPdfEvent.query.get(event_uuid)
 
-    images = convert_from_path(event.get_pdf_page_path(page))
+    convert_size = get_convert_size_from_pdf_dimensions(
+        page_width,
+        page_height,
+        current_app.config["IMAGE_MAX_WIDTH"],
+        current_app.config["IMAGE_MAX_HEIGHT"],
+    )
+    images = convert_from_path(
+        event.get_pdf_page_path(page), fmt="png", single_file=True, size=convert_size
+    )
     for image in images:
-        image.save(event.get_image_path(page))
+        image.save(event.get_image_path(page), "PNG")
 
     # use column to increment in DB:
     event.processed_page_count = RenderingPdfEvent.processed_page_count + 1

@@ -38,6 +38,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DRAMATIQ_BROKER = get_required_environ("DRAMATIQ_BROKER")
     DRAMATIQ_BROKER_URL = get_required_environ("DRAMATIQ_BROKER_URL")
+    IMAGE_MAX_WIDTH = 1200
+    IMAGE_MAX_HEIGHT = 1600
 
     @staticmethod
     def init_app(app):
