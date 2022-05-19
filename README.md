@@ -13,6 +13,9 @@ In example below I use httpie - https://httpie.io/
 5) run services `docker-compose up -d`
 6) send request `http --form http://127.0.0.1:5001/rendering-pdf pdf_file@YOUR_FILE.pdf`
 
+You have to maybe wait some time between step 5 and 6 - wait for docker to start all services.
+The time depends on your computer performance.
+
 
 ## Run tests in docker
 
