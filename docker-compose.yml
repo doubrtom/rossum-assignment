@@ -6,9 +6,10 @@ services:
         environment:
             POSTGRES_USER: db_user
             POSTGRES_PASSWORD: db_password
-            POSTGRES_DB: rossum-assignment
+            POSTGRES_MULTIPLE_DATABASES: '"rossum-assignment","rossum-assignment-test"'
         volumes:
             - db-data:/var/lib/postgresql/data
+            - ./pg-init-scripts:/docker-entrypoint-initdb.d
         ports:
             -  "5432:5432"
     adminer:
@@ -49,7 +50,7 @@ services:
     pdf_renderer_workers:
         build:
             context: .
-            dockerfile: Dockerfile.worker
+            dockerfile: Dockerfile
         command: >
             sh -c 'scripts/entrypoint-workers.sh'
         depends_on:

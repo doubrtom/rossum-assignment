@@ -12,3 +12,7 @@ test-with-cov:
 
 test:
 	pytest tests
+
+test-docker:
+	# Run tests in docker
+	docker-compose run pdf_renderer_api pipenv run make test

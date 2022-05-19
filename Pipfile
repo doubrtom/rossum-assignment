@@ -19,7 +19,6 @@ flask-dramatiq = "*"
 pika = "*"
 pdf2image = "*"
 marshmallow-enum = "*"
-pdf-renderer = {editable = true, path = "."}
 
 [dev-packages]
 black = "*"
@@ -35,6 +34,7 @@ pytest = "*"
 pytest-mock = "*"
 pytest-cov = "*"
 ipython = "*"
+pdf-renderer = {editable = true, path = "."}
 
 [requires]
 python_version = "3.8"
